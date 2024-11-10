@@ -3,10 +3,13 @@ package com.talataa.ecommerce_app.service.imp;
 import com.talataa.ecommerce_app.model.Product;
 import com.talataa.ecommerce_app.repository.IProductRepository;
 import com.talataa.ecommerce_app.service.IProductService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+
+@Service
 public class ProductService implements IProductService {
 
     private final IProductRepository productRepository;

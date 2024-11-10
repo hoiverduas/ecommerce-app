@@ -12,9 +12,9 @@ public interface IOrderRepository extends CrudRepository<Order,Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE OrderEntity o SET o.orderState = :state WHERE o.id = :id")
+    @Query("UPDATE Order o SET o.orderState = :state WHERE o.id = :id")
     void updateStateById(Long id, OrderState state);
 
-    Iterable<Order> findByUserEntity(User user);
+    Iterable<Order> findByUser(User user);
 
 }

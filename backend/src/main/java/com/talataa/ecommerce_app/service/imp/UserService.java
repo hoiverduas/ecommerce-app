@@ -3,10 +3,12 @@ package com.talataa.ecommerce_app.service.imp;
 import com.talataa.ecommerce_app.model.User;
 import com.talataa.ecommerce_app.repository.IUserRepository;
 import com.talataa.ecommerce_app.service.IUserService;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Service
 public class UserService implements IUserService {
 
     private final IUserRepository userRepository;
@@ -17,6 +19,8 @@ public class UserService implements IUserService {
 
     @Override
     public User createUser(User user) {
+
+        user.setDateCreated(LocalDateTime.now());
         return this.userRepository
                 .save(user);
     }
@@ -57,6 +61,7 @@ public class UserService implements IUserService {
             userExist.setAddress(user.getAddress());
             userExist.setCellphone(user.getCellphone());
             userExist.setPassword(user.getPassword());
+            userExist.setDateUpdated(LocalDateTime.now());
 
             return this.userRepository.save(userExist);
         }else {

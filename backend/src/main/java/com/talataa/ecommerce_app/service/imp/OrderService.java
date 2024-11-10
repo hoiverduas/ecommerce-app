@@ -5,10 +5,13 @@ import com.talataa.ecommerce_app.model.OrderState;
 import com.talataa.ecommerce_app.repository.IOrderRepository;
 import com.talataa.ecommerce_app.repository.IUserRepository;
 import com.talataa.ecommerce_app.service.IOrderService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+
+@Service
 public class OrderService implements IOrderService {
 
     private final IOrderRepository orderRepository;

@@ -4,10 +4,13 @@ import com.talataa.ecommerce_app.model.Category;
 import com.talataa.ecommerce_app.model.Product;
 import com.talataa.ecommerce_app.repository.ICategoryRepository;
 import com.talataa.ecommerce_app.service.ICategoryService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+
+@Service
 public class CategoryService implements ICategoryService {
 
     private final ICategoryRepository categoryRepository;
