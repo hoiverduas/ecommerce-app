@@ -9,4 +9,6 @@ public interface IOrderService {
     Order findOrderById(Long id);
     Order updateOrder(Order order);
     void deleteOrderById(Long id);
+    void updateStatusById(Long id, String status);
+
 }

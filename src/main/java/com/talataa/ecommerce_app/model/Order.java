@@ -1,6 +1,8 @@
 package com.talataa.ecommerce_app.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
@@ -8,11 +10,16 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Data
+@AllArgsConstructor
+@Table(name = "orders")
+@Entity
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @CreationTimestamp
     private LocalDateTime dateCreated;
     @Enumerated(value = EnumType.STRING)
@@ -31,6 +38,5 @@ public class Order {
                 .map(orderProduct -> orderProduct.getTotalItem())
                 .reduce(BigDecimal.ZERO,BigDecimal::add);
    }
-
 
 }
