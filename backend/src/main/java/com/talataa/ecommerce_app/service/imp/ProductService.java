@@ -39,7 +39,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product updateUser(Product product) {
+    public Product updateProduct(Product product) {
 
         Optional<Product>  productOptional = productRepository.findById(product.getId());
 

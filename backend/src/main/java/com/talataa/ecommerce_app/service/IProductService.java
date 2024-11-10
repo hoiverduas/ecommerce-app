@@ -7,7 +7,7 @@ public interface IProductService {
     Product createProduct(Product product);
     Iterable<Product> findAllProduct();
     Product findProductById(Long id);
-    Product updateUser(Product product);
+    Product updateProduct(Product product);
     void deleteProductById(Long id);
 
 }
