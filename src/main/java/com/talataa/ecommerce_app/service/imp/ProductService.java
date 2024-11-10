@@ -1,9 +1,11 @@
 package com.talataa.ecommerce_app.service.imp;
 
 import com.talataa.ecommerce_app.model.Product;
-import com.talataa.ecommerce_app.model.User;
 import com.talataa.ecommerce_app.repository.IProductRepository;
 import com.talataa.ecommerce_app.service.IProductService;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class ProductService implements IProductService {
 
@@ -35,11 +37,28 @@ public class ProductService implements IProductService {
 
     @Override
     public Product updateUser(Product product) {
-        return null;
+
+        Optional<Product>  productOptional = productRepository.findById(product.getId());
+
+        if (productOptional.isPresent()){
+            Product productExist = productOptional.get();
+
+            productExist.setCode(product.getCode());
+            productExist.setDateUpdated(LocalDateTime.now());
+            productExist.setName(product.getName());
+            productExist.setDescription(product.getDescription());
+            productExist.setPrice(product.getPrice());
+            productExist.setUrlImage(product.getUrlImage());
+
+            return this.productRepository.save(productExist);
+        }else {
+            throw new RuntimeException("Not found");
+        }
     }
 
     @Override
     public void deleteProductById(Long id) {
-
+       findProductById(id);
+       this.productRepository.deleteById(id);
     }
 }
