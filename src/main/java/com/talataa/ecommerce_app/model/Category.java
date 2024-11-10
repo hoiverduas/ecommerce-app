@@ -18,7 +18,7 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String name;
     @CreationTimestamp
     private LocalDateTime dateCreated;
