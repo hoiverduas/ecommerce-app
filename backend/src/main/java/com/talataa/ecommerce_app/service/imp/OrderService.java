@@ -41,6 +41,14 @@ public class OrderService implements IOrderService {
         Order productOrder = mapToEntity(requestOrderDTO);
         productOrder.setDateCreated(LocalDateTime.now());
 
+
+        if (productOrder.getOrderState() != null &&
+                productOrder.getOrderState().toString().equals(OrderState.CANCELLED.toString())) {
+            productOrder.setOrderState(OrderState.CANCELLED);
+        } else {
+            productOrder.setOrderState(OrderState.CONFIRMED);
+        }
+
         productOrder.getOrderProducts()
                 .forEach(orderProduct -> orderProduct.setOrder(productOrder));
 
@@ -97,9 +105,15 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public Iterable<ResponseOrderDTO> findByUser(User user) {
+    public Iterable<ResponseOrderDTO> findByUser(Long userId) {
 
-        List<Order>orders = (List<Order>) orderRepository.findByUser(user);
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(()->new RuntimeException("Not Found"));
+
+           List<Order> orders = (List<Order>) orderRepository.findByUser(user);
+
+
         return orders.stream()
                 .map(this::mapTaDto)
                 .collect(Collectors.toList());

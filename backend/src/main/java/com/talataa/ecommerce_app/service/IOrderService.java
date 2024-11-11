@@ -14,7 +14,7 @@ public interface IOrderService {
     ResponseOrderDTO updateOrder(RequestUpdatedOrderDTO requestUpdatedOrderDTO);
     void deleteOrderById(Long id);
     void updateStatusById(Long id, String status);
-    Iterable<ResponseOrderDTO> findByUser(User user);
+    Iterable<ResponseOrderDTO> findByUser(Long id);
 
 
 }
