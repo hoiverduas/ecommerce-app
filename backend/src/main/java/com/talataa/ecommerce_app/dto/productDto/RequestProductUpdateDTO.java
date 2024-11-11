@@ -1,4 +1,4 @@
-package com.talataa.ecommerce_app.dto.categoryDto;
+package com.talataa.ecommerce_app.dto.productDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class ResponseProductDTO {
+@AllArgsConstructor
+public class RequestProductUpdateDTO {
 
     private Long id;
     private String name;

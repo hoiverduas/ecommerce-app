@@ -1,7 +1,9 @@
 package com.talataa.ecommerce_app.controller;
 
 
-import com.talataa.ecommerce_app.model.Product;
+import com.talataa.ecommerce_app.dto.productDto.RequestProductDTO;
+import com.talataa.ecommerce_app.dto.productDto.RequestProductUpdateDTO;
+import com.talataa.ecommerce_app.dto.productDto.ResponseProductDTO;
 import com.talataa.ecommerce_app.service.imp.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,20 +20,20 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product){
-        try {
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body(this.productService.createProduct(product));
-        }catch (RuntimeException e){
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build();
-        }
+    public ResponseEntity<ResponseProductDTO> createProduct(@RequestBody RequestProductDTO requestProductDTO){
+            try {
+                return ResponseEntity
+                        .status(HttpStatus.CREATED)
+                        .body(this.productService.createProduct(requestProductDTO));
+            }catch (RuntimeException e){
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST).build();
+            }
+
     }
 
     @GetMapping
-    public  ResponseEntity<Iterable<Product>> getAllProduct(){
+    public  ResponseEntity<Iterable<ResponseProductDTO>> getAllProduct(){
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
@@ -43,7 +45,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long  id){
+    public ResponseEntity<ResponseProductDTO> getProductById(@PathVariable Long  id){
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
@@ -56,11 +58,11 @@ public class ProductController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product){
+    public ResponseEntity<ResponseProductDTO> updateProduct(@RequestBody RequestProductUpdateDTO requestProductUpdateDTO){
         try {
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(this.productService.updateProduct(product));
+                    .body(this.productService.updateProduct(requestProductUpdateDTO));
         }catch (RuntimeException e){
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)

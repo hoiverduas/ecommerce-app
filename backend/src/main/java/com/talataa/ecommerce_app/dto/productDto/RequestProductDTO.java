@@ -1,13 +1,8 @@
-package com.talataa.ecommerce_app.dto.categoryDto;
+package com.talataa.ecommerce_app.dto.productDto;
 
-import com.talataa.ecommerce_app.model.Category;
-import com.talataa.ecommerce_app.model.User;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 
@@ -24,4 +19,6 @@ public class RequestProductDTO {
     private BigDecimal price;
     private Long userId;
     private Long categoryId;
+
+
 }

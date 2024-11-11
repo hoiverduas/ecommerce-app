@@ -1,9 +1,9 @@
 package com.talataa.ecommerce_app.service.imp;
 
 import com.talataa.ecommerce_app.model.Category;
-import com.talataa.ecommerce_app.model.Product;
 import com.talataa.ecommerce_app.repository.ICategoryRepository;
 import com.talataa.ecommerce_app.service.ICategoryService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,9 +14,11 @@ import java.util.Optional;
 public class CategoryService implements ICategoryService {
 
     private final ICategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
 
-    public CategoryService(ICategoryRepository categoryRepository) {
+    public CategoryService(ICategoryRepository categoryRepository, ModelMapper modelMapper) {
         this.categoryRepository = categoryRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -63,6 +65,16 @@ public class CategoryService implements ICategoryService {
         this.categoryRepository.deleteById(id);
     }
 
+
+  /*  private ResponseProductDTO mapTaDto(Category category){
+        return this.modelMapper
+                .map(category,ResponseProductDTO.class);
+    }
+
+    private Category mapToEntity(RequestProductDTO requestProductDTO){
+        return this.modelMapper
+                .map(requestProductDTO,Category.class);
+    }*/
 
 
 }

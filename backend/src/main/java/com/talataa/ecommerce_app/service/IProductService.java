@@ -1,13 +1,17 @@
 package com.talataa.ecommerce_app.service;
 
-import com.talataa.ecommerce_app.model.Product;
+import com.talataa.ecommerce_app.dto.orderDto.ResponseOrderDTO;
+import com.talataa.ecommerce_app.dto.productDto.RequestProductDTO;
+import com.talataa.ecommerce_app.dto.productDto.RequestProductUpdateDTO;
+import com.talataa.ecommerce_app.dto.productDto.ResponseProductDTO;
+import com.talataa.ecommerce_app.model.User;
 
 public interface IProductService {
 
-    Product createProduct(Product product);
-    Iterable<Product> findAllProduct();
-    Product findProductById(Long id);
-    Product updateProduct(Product product);
+    ResponseProductDTO createProduct(RequestProductDTO requestProductDTO);
+    Iterable<ResponseProductDTO> findAllProduct();
+    ResponseProductDTO findProductById(Long id);
+    ResponseProductDTO updateProduct(RequestProductUpdateDTO requestProductUpdateDTO);
     void deleteProductById(Long id);
 
 }
