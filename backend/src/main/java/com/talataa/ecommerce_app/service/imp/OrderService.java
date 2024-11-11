@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.talataa.ecommerce_app.dto.orderDto.RequestOrderDTO;
 import com.talataa.ecommerce_app.dto.orderDto.RequestUpdatedOrderDTO;
 import com.talataa.ecommerce_app.dto.orderDto.ResponseOrderDTO;
+import com.talataa.ecommerce_app.dto.orderProductDto.ResponseOrderProductDTO;
 import com.talataa.ecommerce_app.model.Order;
+import com.talataa.ecommerce_app.model.OrderProduct;
 import com.talataa.ecommerce_app.model.OrderState;
 import com.talataa.ecommerce_app.model.User;
 import com.talataa.ecommerce_app.repository.IOrderRepository;
@@ -13,6 +15,7 @@ import com.talataa.ecommerce_app.service.IOrderService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,39 +35,55 @@ public class OrderService implements IOrderService {
 
     @Override
     public ResponseOrderDTO createOrder(RequestOrderDTO requestOrderDTO) {
-
+        // Buscar el usuario por ID
         Long userId = requestOrderDTO.getUserId();
         User user = userRepository
                 .findById(userId)
-                .orElseThrow(()->new RuntimeException("Not Found"));
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        Order productOrder = mapToEntity(requestOrderDTO);
-        productOrder.setDateCreated(LocalDateTime.now());
+        // Crear una nueva instancia de Order y configurar sus propiedades
+        Order order = new Order();
+        order.setUser(user);
+        order.setDateCreated(LocalDateTime.now());
 
-
-        if (productOrder.getOrderState() != null &&
-                productOrder.getOrderState().toString().equals(OrderState.CANCELLED.toString())) {
-            productOrder.setOrderState(OrderState.CANCELLED);
+        // Configurar el estado de la orden (CONFIRMED o CANCELLED)
+        if (requestOrderDTO.getOrderState() != null && requestOrderDTO.getOrderState().equals(OrderState.CANCELLED)) {
+            order.setOrderState(OrderState.CANCELLED);
         } else {
-            productOrder.setOrderState(OrderState.CONFIRMED);
+            order.setOrderState(OrderState.CONFIRMED);
         }
 
-        productOrder.getOrderProducts()
-                .forEach(orderProduct -> orderProduct.setOrder(productOrder));
+        // Convertir los productos del DTO a entidades OrderProduct y configurarlos en la orden
+        List<OrderProduct> orderProducts = requestOrderDTO.getOrderProducts().stream().map(dto -> {
+            OrderProduct orderProduct = new OrderProduct();
+            orderProduct.setProductId(dto.getProductId());
+            orderProduct.setQuantity(dto.getQuantity());
+            orderProduct.setPrice(dto.getPrice());
+            orderProduct.setOrder(order); // Asignar la orden al producto
+            return orderProduct;
+        }).collect(Collectors.toList());
+        order.setOrderProducts(orderProducts);
+        // Guardar la orden con sus productos en la base de datos
+        Order savedOrder = orderRepository.save(order);
 
-        this.orderRepository.save(productOrder);
+        // Mapear la entidad guardada a ResponseOrderDTO para la respuesta
+        ResponseOrderDTO responseOrderDTO = mapToResponseDTO(savedOrder);
+        responseOrderDTO.setTotalOrderPrice(savedOrder.getTotalOrderPrice());
 
-        ResponseOrderDTO orderDTO = mapTaDto(productOrder);
-        orderDTO.setDateCreated(productOrder.getDateCreated());
 
-        return orderDTO;
+        return responseOrderDTO;
     }
+
 
     @Override
     public Iterable<ResponseOrderDTO> findAllOrder() {
         List<Order> orders = (List<Order>) orderRepository.findAll();
         return orders.stream()
-                .map(this::mapTaDto)
+                .map(order -> {
+                    ResponseOrderDTO dto = mapToResponseDTO(order);
+                    dto.setTotalOrderPrice(order.getTotalOrderPrice()); // Asigna el precio total
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -74,7 +93,7 @@ public class OrderService implements IOrderService {
         Order order = orderRepository
                 .findById(id)
                 .orElseThrow(()->new RuntimeException("Not Found"));
-        return mapTaDto(order);
+        return mapToResponseDTO(order);
     }
 
     @Override
@@ -142,4 +161,36 @@ public class OrderService implements IOrderService {
     }
 
 
+    public ResponseOrderDTO mapToResponseDTO(Order order) {
+        ResponseOrderDTO dto = new ResponseOrderDTO();
+
+        // Otros mapeos de propiedades de la orden a dto
+        dto.setId(order.getId());
+        dto.setOrderState(order.getOrderState());
+        dto.setDateCreated(order.getDateCreated());
+        dto.setTotalOrderPrice(order.getTotalOrderPrice());
+
+        // Verifica si el usuario no es null antes de asignar el ID de usuario
+        if (order.getUser() != null) {
+            dto.setUserId(order.getUser().getId());
+        } else {
+            dto.setUserId(null); // o algún valor predeterminado o manejo según tu lógica
+        }
+
+
+        // Mapear los productos de la orden, si corresponde
+        List<ResponseOrderProductDTO> orderProductDTOs = order.getOrderProducts().stream()
+                .map(orderProduct -> {
+                    ResponseOrderProductDTO productDTO = new ResponseOrderProductDTO();
+                    productDTO.setProductId(orderProduct.getProductId());
+                    productDTO.setQuantity(orderProduct.getQuantity());
+                    productDTO.setPrice(orderProduct.getPrice());
+                    return productDTO;
+                })
+                .collect(Collectors.toList());
+        dto.setOrderProducts(orderProductDTOs);
+
+        return dto;
+
+    }
 }

@@ -4,6 +4,7 @@ package com.talataa.ecommerce_app.controller;
 import com.talataa.ecommerce_app.dto.orderDto.RequestOrderDTO;
 import com.talataa.ecommerce_app.dto.orderDto.RequestUpdatedOrderDTO;
 import com.talataa.ecommerce_app.dto.orderDto.ResponseOrderDTO;
+import com.talataa.ecommerce_app.model.Order;
 import com.talataa.ecommerce_app.service.imp.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
