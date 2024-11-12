@@ -11,14 +11,15 @@ import { Routes,RouterModule } from '@angular/router';
 import { ProductAddComponent } from './components/product-add/product-add.component';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
-import { CategoryComponent } from './components/category/category.component';
+import { CategoryListComponent } from './components/category-list/category-list.component';
 
 
 const routes: Routes =[
 {path:'',component:HomeComponent},
 {path:'admin/product',component:ProductListComponent},
 {path:'admin/product/addProduct',component:ProductAddComponent},
-{path:'admin/product/update/:id',component:ProductAddComponent}
+{path:'admin/product/update/:id',component:ProductAddComponent},
+{path:'admin/category',component:CategoryListComponent}
 ];
 
 
@@ -29,7 +30,7 @@ const routes: Routes =[
     ProductListComponent,
     HeaderAdminComponent,
     ProductAddComponent,
-    CategoryComponent,
+    CategoryListComponent,
    
   ],
   imports: [
