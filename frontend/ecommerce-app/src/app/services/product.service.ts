@@ -22,10 +22,11 @@ export class ProductService {
     .post<Product>(this.apiUrl,formData);
   }
 
-  deleteProductById(id:number):Observable<any>{
+  deleteProductById(id: number): Observable<any> {
     return this.httpClient
-    .delete(this.apiUrl + "/" +id);
-  }
+    .delete(this.apiUrl + "/delete/" + id);
+}
+
 
   getProductById(id:number):Observable<Product>{
     return this.httpClient
