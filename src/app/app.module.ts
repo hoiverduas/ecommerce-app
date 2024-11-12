@@ -11,6 +11,7 @@ import { Routes,RouterModule } from '@angular/router';
 import { ProductAddComponent } from './components/product-add/product-add.component';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import { CategoryComponent } from './components/category/category.component';
 
 
 const routes: Routes =[
@@ -28,6 +29,7 @@ const routes: Routes =[
     ProductListComponent,
     HeaderAdminComponent,
     ProductAddComponent,
+    CategoryComponent,
    
   ],
   imports: [
