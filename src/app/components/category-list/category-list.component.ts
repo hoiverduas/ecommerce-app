@@ -22,7 +22,12 @@ constructor(private categoryService:CategoryService){}
     );
   }
 
-
+  deleteCategoryById(id:number){
+    console.log('id de categoria : ' + id);
+    this.categoryService.deleteCategoryById(id).subscribe(
+      ()=> this.listCategoies()
+    );
+  }
 
 
 

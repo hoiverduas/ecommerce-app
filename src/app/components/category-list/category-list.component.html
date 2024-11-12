@@ -11,7 +11,7 @@
         <li class="breadcrumb-item active">Ver Categorías</li>
     </ol>
 
-    <a class="btn btn-primary"> Crear Categoría</a>
+    <a class="btn btn-primary" routerLink="/admin/category/add"> Crear Categoría</a>
     <h2>Categorías</h2>
     <table class="table">
         <thead>
@@ -24,8 +24,8 @@
         <tbody *ngFor="let c of categories">
             <tr>
                 <td>{{c.name}}</td>                
-                <td><button class="btn btn-warning">Editar</button> </td>
-                <td><button class="btn btn-danger" >Eliminar</button>
+                <td><button class="btn btn-warning" [routerLink]="['/admin/category/update', c.id]">Editar</button></td>
+                <td><button class="btn btn-danger" (click)="deleteCategoryById(c.id)" >Eliminar</button>
             </tr>
         </tbody>
     </table>

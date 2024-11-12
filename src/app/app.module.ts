@@ -12,6 +12,7 @@ import { ProductAddComponent } from './components/product-add/product-add.compon
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { CategoryListComponent } from './components/category-list/category-list.component';
+import { CategoryAddComponent } from './components/category.add/category.add.component';
 
 
 const routes: Routes =[
@@ -19,7 +20,10 @@ const routes: Routes =[
 {path:'admin/product',component:ProductListComponent},
 {path:'admin/product/addProduct',component:ProductAddComponent},
 {path:'admin/product/update/:id',component:ProductAddComponent},
-{path:'admin/category',component:CategoryListComponent}
+{path:'admin/category',component:CategoryListComponent},
+{path:'admin/category/add',component:CategoryAddComponent},
+{path:'admin/category/update/:id',component:CategoryAddComponent},
+
 ];
 
 
@@ -31,6 +35,7 @@ const routes: Routes =[
     HeaderAdminComponent,
     ProductAddComponent,
     CategoryListComponent,
+    CategoryAddComponent,
    
   ],
   imports: [
