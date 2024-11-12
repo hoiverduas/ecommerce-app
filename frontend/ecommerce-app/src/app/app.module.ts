@@ -9,11 +9,13 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import { HeaderAdminComponent } from './components/header-admin/header-admin.component';
 import { Routes,RouterModule } from '@angular/router';
 import { ProductAddComponent } from './components/product-add/product-add.component';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes =[
 {path:'',component:HomeComponent},
-{path:'admin/product',component:ProductListComponent}
-
+{path:'admin/product',component:ProductListComponent},
+{path:'admin/product/addProduct',component:ProductAddComponent},
+{path:'admin/product/update/:id',component:ProductAddComponent}
 ];
 
 
@@ -29,6 +31,7 @@ const routes: Routes =[
     BrowserModule,
     AppRoutingModule,
     RouterModule.forRoot(routes),
+    FormsModule,
    
   ],
   providers: [provideHttpClient()],
