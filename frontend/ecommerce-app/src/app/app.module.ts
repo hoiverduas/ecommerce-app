@@ -10,6 +10,8 @@ import { HeaderAdminComponent } from './components/header-admin/header-admin.com
 import { Routes,RouterModule } from '@angular/router';
 import { ProductAddComponent } from './components/product-add/product-add.component';
 import { FormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
+
 
 const routes: Routes =[
 {path:'',component:HomeComponent},
@@ -25,13 +27,15 @@ const routes: Routes =[
     HomeComponent,
     ProductListComponent,
     HeaderAdminComponent,
-    ProductAddComponent
+    ProductAddComponent,
+   
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterModule.forRoot(routes),
     FormsModule,
+    ToastrModule.forRoot(),
    
   ],
   providers: [provideHttpClient()],

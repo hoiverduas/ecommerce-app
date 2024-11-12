@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-add',
@@ -21,7 +22,8 @@ export class ProductAddComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private toastr:ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +47,7 @@ export class ProductAddComponent implements OnInit {
       this.productService.updateProduct(this.id, productData).subscribe({
         next: (data) => {
           console.log('Producto actualizado:', data);
+          this.toastr.success('Producto registrado correctamente','Productos');
           this.router.navigate(['admin/product']);
         },
         error: (error) => {
