@@ -17,9 +17,36 @@ export class DetailProductComponent implements OnInit {
   quantity:number=0;
 
   ngOnInit(): void {
+    this.grtProductById();
   }
    constructor(private productService:ProductService,private activetedRoute:ActivatedRoute){}
-  
+     grtProductById(){
+      this.activetedRoute.params.subscribe(
+        p=>{ 
+          let id = p['id']
+           if(id){
+            this.productService.getProductById(id).subscribe(
+                data=>{
+                  this.id = data.id,
+                  this.name = data.name;
+                  this.description = data.description;
+                  this.price = data.price;
+                  this.urlImage = data.urlImage;
+                }
+            );
+           }
+        }
+      );
+    }
    
+    addCart(id:number){
+      console.log('id product :'+id);
+      console.log('id name :'+this.name);
+      console.log('id price:'+this.price);
+      console.log('id quantity :'+this.quantity);
+
+
+
+    }
 
   }
