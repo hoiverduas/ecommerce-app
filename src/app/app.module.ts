@@ -12,7 +12,7 @@ import { ProductAddComponent } from './components/product-add/product-add.compon
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { CategoryListComponent } from './components/category-list/category-list.component';
-import { CategoryAddComponent } from './components/category.add/category-add.component';
+import { CategoryAddComponent } from './components/category.add/category.add.component'; 
 import { DetailProductComponent } from './components/detail-product/detail-product.component';
 
 
@@ -24,6 +24,7 @@ const routes: Routes =[
 {path:'admin/category',component:CategoryListComponent},
 {path:'admin/category/add',component:CategoryAddComponent},
 {path:'admin/category/update/:id',component:CategoryAddComponent},
+{path:'cart/detailProduct/:id',component:DetailProductComponent}
 
 ];
 
