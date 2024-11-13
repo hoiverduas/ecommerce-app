@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { ActivatedRoute } from '@angular/router';
+import { ItemCart } from '../../common/item-cart';
+import { CartService } from '../../services/cart.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-detail-product',
@@ -19,7 +22,7 @@ export class DetailProductComponent implements OnInit {
   ngOnInit(): void {
     this.grtProductById();
   }
-   constructor(private productService:ProductService,private activetedRoute:ActivatedRoute){}
+   constructor(private productService:ProductService,private activetedRoute:ActivatedRoute,private cartService:CartService,private toastr:ToastrService){}
      grtProductById(){
       this.activetedRoute.params.subscribe(
         p=>{ 
@@ -46,7 +49,12 @@ export class DetailProductComponent implements OnInit {
       console.log('id quantity :'+this.quantity);
 
 
-
+      let item = new ItemCart(id,this.name,this.quantity,this.price)
+       this.cartService.addItemCart(item);
+       console.log('Total carrito :')
+       console.log(this.cartService.totalCart());
+       
+       this.toastr.success('producto añadido al carrito de compra','Carrito Compras')
     }
 
   }

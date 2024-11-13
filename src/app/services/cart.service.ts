@@ -7,12 +7,23 @@ import { ItemCart } from '../common/item-cart';
 export class CartService {
    
   private items: Map<number,ItemCart> = new Map<number,ItemCart>();
-  itemList : ItemCart[] = []
+  itemList : ItemCart [] = []
   constructor() { }
 
-  addItemCart(itemCart:ItemCart){
-      this.items.set(itemCart.productId,itemCart);
+  addItemCart(itemCart: ItemCart) {
+    // Verificar si el producto ya existe en el carrito
+    if (this.items.has(itemCart.productId)) {
+      // Si existe, actualizar la cantidad y el precio total
+      let existingItem = this.items.get(itemCart.productId);
+      if (existingItem) {
+        existingItem.quantity += itemCart.quantity; // Aumentar la cantidad
+      }
+    } else {
+      // Si no existe, añadirlo como un nuevo producto en el carrito
+      this.items.set(itemCart.productId, itemCart);
+    }
   }
+  
 
   deleteItemCart(productId:number){
     this.items.delete(productId);

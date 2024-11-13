@@ -15,6 +15,7 @@ import { CategoryListComponent } from './components/category-list/category-list.
 import { CategoryAddComponent } from './components/category.add/category.add.component'; 
 import { DetailProductComponent } from './components/detail-product/detail-product.component';
 import { HeaderUserComponent } from './components/header-user/header-user.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 const routes: Routes =[
@@ -46,6 +47,7 @@ const routes: Routes =[
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(routes),
     FormsModule,
     ToastrModule.forRoot(),
