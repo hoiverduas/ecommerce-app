@@ -11,17 +11,19 @@ export class CartService {
   constructor() { }
 
   addItemCart(itemCart: ItemCart) {
-    // Verificar si el producto ya existe en el carrito
     if (this.items.has(itemCart.productId)) {
-      // Si existe, actualizar la cantidad y el precio total
       let existingItem = this.items.get(itemCart.productId);
       if (existingItem) {
-        existingItem.quantity += itemCart.quantity; // Aumentar la cantidad
+        existingItem.quantity += itemCart.quantity;
       }
     } else {
-      // Si no existe, añadirlo como un nuevo producto en el carrito
       this.items.set(itemCart.productId, itemCart);
     }
+  }
+  
+  convertToListFromMap() {
+    this.itemList = Array.from(this.items.values());
+    return this.itemList;
   }
   
 
@@ -44,14 +46,5 @@ export class CartService {
     return totalCart
   }
 
-  convertToListFromMap(){
-    this.itemList.splice(0,this.itemList.length);
-    this.items.forEach(
-      (item,clave)=>{
-      this.itemList.push(item)
-    }
-  );
 
-  return this.itemList;
-  }
 }
