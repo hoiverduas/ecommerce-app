@@ -6,6 +6,8 @@ import {OrderProducts} from '../../common/order-ptoduct';
 import { Order } from '../../common/order';
 import { orderState } from '../../common/order-status';
 import { OrderService } from '../../services/order.service';
+import { SeasionStorageService } from '../../services/seasion-storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sumary-order',
@@ -25,12 +27,19 @@ export class SumaryOrderComponent implements OnInit{
   orderProducts:OrderProducts[] = [];
   userId:number=1;
 
-  constructor(private cartService:CartService,private userService:UserService,private oderService:OrderService){}
+  constructor(private cartService:CartService,
+    private userService:UserService,
+    private oderService:OrderService,
+    private sessionStorage:SeasionStorageService,
+    private router: Router,
+  
+    ){}
 
   ngOnInit(): void {
     this.items = this.cartService.convertToListFromMap();
     this.totalCart = this.cartService.totalCart();
     this.getUserById(this.userId);
+    
     
   }
 
@@ -51,16 +60,19 @@ export class SumaryOrderComponent implements OnInit{
       parsedDate,
       this.orderProducts,  // Asegúrate de que los productos estén correctamente agregados aquí
       this.userId,
-      orderState.CANCELLED,
+      orderState.CONFIRMED,
     );
     console.log('Order:', order);
   
     this.oderService.createOrder(order).subscribe(
       data => {
         console.log('Order creada con id:', data.id);
+        this.sessionStorage.setItem('order',data);
+        this.router.navigate(['/success']);
       },
       
     );
+    
   }
   
   
