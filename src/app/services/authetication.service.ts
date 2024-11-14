@@ -21,7 +21,7 @@ private apiUrlAuth : string = 'http://localhost:8080/api/v1/auth'
   }
 
   login(loginDto:Logindto):Observable<Jwtclient>{
-    return this.httpClient.post<Jwtclient>(this.apiUrl+'/login',loginDto);
+    return this.httpClient.post<Jwtclient>(this.apiUrlAuth+'/login',loginDto);
   }
 
 }
