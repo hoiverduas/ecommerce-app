@@ -1,5 +1,9 @@
 package com.talataa.ecommerce_app.service.imp;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.talataa.ecommerce_app.dto.loginDto.RequestRegisterDto;
+import com.talataa.ecommerce_app.dto.loginDto.ResponseRegisterDto;
+import com.talataa.ecommerce_app.model.Product;
 import com.talataa.ecommerce_app.model.User;
 import com.talataa.ecommerce_app.repository.IUserRepository;
 import com.talataa.ecommerce_app.service.IUserService;
@@ -12,9 +16,11 @@ import java.util.Optional;
 public class UserService implements IUserService {
 
     private final IUserRepository userRepository;
+    private final ObjectMapper objectMapper;
 
-    public UserService(IUserRepository userRepository) {
+    public UserService(IUserRepository userRepository, ObjectMapper objectMapper) {
         this.userRepository = userRepository;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -71,8 +77,25 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public ResponseRegisterDto register(RequestRegisterDto requestRegisterDto) {
+
+        User user = mapToEntity(requestRegisterDto);
+        this.userRepository.save(user);
+        ResponseRegisterDto responseRegisterDto = mapToDto(user);
+        return responseRegisterDto ;
+    }
+
+    @Override
     public void deleteUserById(Long id) {
         findUserById(id);
         this.userRepository.deleteById(id);
+    }
+
+    private ResponseRegisterDto mapToDto(User user){
+        return this.objectMapper.convertValue(user,ResponseRegisterDto.class);
+    }
+
+    private User mapToEntity(RequestRegisterDto requestRegisterDto){
+        return this.objectMapper.convertValue(requestRegisterDto,User.class);
     }
 }

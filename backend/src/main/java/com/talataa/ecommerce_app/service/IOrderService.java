@@ -13,7 +13,7 @@ public interface IOrderService {
     ResponseOrderDTO findOrderById(Long id);
     ResponseOrderDTO updateOrder(RequestUpdatedOrderDTO requestUpdatedOrderDTO);
     void deleteOrderById(Long id);
-    void updateStatusById(Long id, String status);
+    void updateStatusById(Long id, String state);
     Iterable<ResponseOrderDTO> findByUser(Long id);
 
 

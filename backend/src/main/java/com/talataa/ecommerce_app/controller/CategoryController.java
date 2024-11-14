@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/categories")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -65,7 +66,7 @@ public class CategoryController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Category> deleteCategoryById(@PathVariable Long id){
         try {
             this.categoryService.deleteCategoryById(id);

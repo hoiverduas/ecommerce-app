@@ -11,7 +11,7 @@ public interface IProductService {
     ResponseProductDTO createProduct(RequestProductDTO requestProductDTO);
     Iterable<ResponseProductDTO> findAllProduct();
     ResponseProductDTO findProductById(Long id);
-    ResponseProductDTO updateProduct(RequestProductUpdateDTO requestProductUpdateDTO);
+    ResponseProductDTO updateProduct(Long id,RequestProductUpdateDTO requestProductUpdateDTO);
     void deleteProductById(Long id);
 
 }

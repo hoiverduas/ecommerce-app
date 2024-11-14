@@ -113,9 +113,9 @@ public class OrderService implements IOrderService {
 
 
     @Override
-    public void updateStatusById(Long id, String status) {
+    public void updateStatusById(Long id, String state) {
 
-        if (status.equals(OrderState.CANCELLED)){
+        if (state.equals(OrderState.CANCELLED)){
             this.orderRepository.updateStateById(id,OrderState.CANCELLED);
         }else {
             this.orderRepository.updateStateById(id,OrderState.CONFIRMED);

@@ -84,14 +84,41 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ResponseProductDTO updateProduct(RequestProductUpdateDTO requestProductUpdateDTO) {
+    public ResponseProductDTO updateProduct(Long id, RequestProductUpdateDTO requestProductUpdateDTO) {
 
-        findProductById(requestProductUpdateDTO.getId());
-        Product product = productRepository.save(mapToEntity(requestProductUpdateDTO));
-        product.setDateUpdated(LocalDateTime.now());
-        return mapTaDto(product);
 
+        Long userId = requestProductUpdateDTO.getUserId();
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(()-> new RuntimeException("Not Found"));
+
+        Long categoryId = requestProductUpdateDTO.getCategoryId();
+        Category category = categoryRepository
+                .findById(categoryId)
+                .orElseThrow(()->new RuntimeException("Not Found"));
+
+        Product existingProduct = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con id: " + id));
+
+        // Actualiza los campos del producto con los datos del DTO
+        existingProduct.setCode(requestProductUpdateDTO.getCode());
+        existingProduct.setName(requestProductUpdateDTO.getName());
+        existingProduct.setDescription(requestProductUpdateDTO.getDescription());
+        existingProduct.setPrice(requestProductUpdateDTO.getPrice());
+        existingProduct.setUrlImage(requestProductUpdateDTO.getUrlImage());
+        existingProduct.setUser(user);
+        existingProduct.setCategory(category);
+
+        // Actualiza la fecha de modificación
+        existingProduct.setDateUpdated(LocalDateTime.now());
+
+        // Guarda el producto actualizado en la base de datos
+        productRepository.save(existingProduct);
+
+        // Mapea la entidad a un DTO para devolverlo en la respuesta
+        return mapTaDto(existingProduct);
     }
+
 
     @Override
     public void deleteProductById(Long id) {

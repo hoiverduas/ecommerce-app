@@ -4,7 +4,6 @@ package com.talataa.ecommerce_app.controller;
 import com.talataa.ecommerce_app.dto.orderDto.RequestOrderDTO;
 import com.talataa.ecommerce_app.dto.orderDto.RequestUpdatedOrderDTO;
 import com.talataa.ecommerce_app.dto.orderDto.ResponseOrderDTO;
-import com.talataa.ecommerce_app.model.Order;
 import com.talataa.ecommerce_app.service.imp.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/orders")
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class OrderController {
 
     private final OrderService orderService;
@@ -22,14 +23,11 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<ResponseOrderDTO> createOrder(@RequestBody RequestOrderDTO requestOrderDTO){
-        try {
+
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(this.orderService.createOrder(requestOrderDTO));
-        }catch (RuntimeException e){
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST).build();
-        }
+
     }
 
     @GetMapping
@@ -81,9 +79,9 @@ public class OrderController {
     }
 
     @PostMapping("/status")
-    public ResponseEntity<Void> updateStatus(@RequestParam Long id,@RequestParam String status){
+    public ResponseEntity<Void> updateStatus(@RequestParam Long id,@RequestParam String state){
         try {
-            this.orderService.updateStatusById(id,status);
+            this.orderService.updateStatusById(id,state);
             return ResponseEntity
                     .status(HttpStatus.OK).build();
         }catch (RuntimeException e){
