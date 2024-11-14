@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ItemCart } from '../../common/item-cart';
 import { CartService } from '../../services/cart.service';
 import { UserService } from '../../services/user.service';
-import { OrderPtoduct } from '../../common/order-ptoduct';
+import {OrderProducts} from '../../common/order-ptoduct';
 import { Order } from '../../common/order';
-import { OrderStatus } from '../../common/order-status';
+import { orderState } from '../../common/order-status';
 import { OrderService } from '../../services/order.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class SumaryOrderComponent implements OnInit{
   lastName : string='';
   email:string='';
   address:string='';
-  orderProducts:OrderPtoduct [] = [];
+  orderProducts:OrderProducts[] = [];
   userId:number=1;
 
   constructor(private cartService:CartService,private userService:UserService,private oderService:OrderService){}
@@ -35,21 +35,35 @@ export class SumaryOrderComponent implements OnInit{
   }
 
 
-  generateOrder(){
-    this.items.forEach(
-      item=>{
-        let orderPtoduct = new OrderPtoduct(null,item.productId,item.quantity,item.price);
-        this.orderProducts.push(orderPtoduct);
-      }
+  generateOrder() {
+    this.items.forEach(item => {
+      let orderProduct = new OrderProducts(null, item.productId, item.quantity, item.price);
+      this.orderProducts.push(orderProduct);  // Llenar el array de productos
+    });
+  
+    console.log('Productos enviados al backend:', this.orderProducts);  // Verifica si los productos están correctos
+  
+    let receivedDate = "2024-11-13T15:54:30.250562";
+    let parsedDate = new Date(receivedDate);
+  
+    let order = new Order(
+      null,
+      parsedDate,
+      this.orderProducts,  // Asegúrate de que los productos estén correctamente agregados aquí
+      this.userId,
+      orderState.CANCELLED,
     );
-
-    let order = new Order(null,new Date(),this.orderProducts,this.userId,OrderStatus.CANCELLED);
+    console.log('Order:', order);
+  
     this.oderService.createOrder(order).subscribe(
-      data =>{
-        console.log('Order creada con id : '+data.id)
-      }
+      data => {
+        console.log('Order creada con id:', data.id);
+      },
+      
     );
   }
+  
+  
 
   deleteItemCart(productId:number){
     this.cartService.deleteItemCart(productId);

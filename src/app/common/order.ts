@@ -1,22 +1,23 @@
-import { Data } from "popper.js";
-import { OrderPtoduct } from "./order-ptoduct";
-import { OrderStatus } from "./order-status";
+
+import {OrderProducts } from "./order-ptoduct";
+import { orderState } from "./order-status";
 
 export class Order {
 
     constructor(public id:number|null,
         public dateCreated:Date,
-        public orderProduct:OrderPtoduct[],
+        public orderProducts:OrderProducts[],
         public userId:number,
-        public orderState:OrderStatus
+        public orderState:orderState
 
     ){}
-
-    getTotal(){
+    getTotal(): number {
         let total = 0;
-        for(let orderProduct of this.orderProduct){
-             total += orderProduct.price*orderProduct.quantity;
-             console.log('Total :'+ total);
+        for (let orderProduct of this.orderProducts) {
+            total += orderProduct.price * orderProduct.quantity;
         }
+        console.log('Total : ' + total);
+        return total; // Ahora retorna el total calculado
     }
+    
 }
