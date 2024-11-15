@@ -1,20 +1,15 @@
 package com.talataa.ecommerce_app.service;
 
-import com.talataa.ecommerce_app.dto.loginDto.RequestRegisterDto;
-import com.talataa.ecommerce_app.dto.loginDto.ResponseRegisterDto;
-import com.talataa.ecommerce_app.model.User;
 
-import java.util.Optional;
+import com.talataa.ecommerce_app.entities.User;
 
+import java.util.List;
 
 public interface IUserService {
 
-    User createUser(User user);
-    Iterable<User> findAllUser();
-    User findByEmail(String email);
-    User findUserById(Long id);
-    User updateUser(User user);
-    ResponseRegisterDto register(RequestRegisterDto requestRegisterDto);
-    void deleteUserById(Long id);
-
+  User save(User user);
+  List<User> findAll();
+  User findById(Long id);
+  User update(User ser);
+  void deleteById(Long id);
 }
