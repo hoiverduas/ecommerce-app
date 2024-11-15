@@ -14,8 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 public class SecurityConfig {
@@ -27,29 +25,24 @@ public class SecurityConfig {
         this.jwtFilter = jwtFilter;
     }
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Permite solicitudes desde cualquier origen (CORS)
+                .cors(Customizer.withDefaults())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // Permite todas las solicitudes sin autenticación
+                        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll() // Permite POST a /auth
+                        .requestMatchers(HttpMethod.POST, "/users**").permitAll() // Permite acceso a swagger-ui
+                        .requestMatchers(HttpMethod.POST, "/customers").permitAll() // Permite acceso a la documentación de API
+                        .requestMatchers(HttpMethod.POST, "/admins").permitAll() // Permite acceso a swagger-ui.html
+                        .requestMatchers(HttpMethod.GET, "/doctors/**").hasRole("ADMIN") // Solo para doctores
+                        .requestMatchers(HttpMethod.GET, "/patients/**").hasRole("CUS") // Solo para pacientes
+                        .anyRequest().authenticated() // Cualquier otra solicitud necesita autenticación
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // Configuración de sesión sin estado
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // Añadir el filtro JWT antes del filtro de autenticación
 
         return http.build();
-    }
-
-    private UrlBasedCorsConfigurationSource corsConfigurationSource() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOriginPattern("*"); // Permite cualquier origen
-        config.addAllowedMethod("*");        // Permite cualquier método (GET, POST, etc.)
-        config.addAllowedHeader("*");        // Permite cualquier encabezado
-        config.setAllowCredentials(true);    // Permite credenciales
-        source.registerCorsConfiguration("/**", config);
-        return source;
     }
 
 

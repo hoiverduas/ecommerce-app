@@ -1,12 +1,16 @@
 package com.talataa.ecommerce_app.repository;
 
-import com.talataa.ecommerce_app.model.User;
-import org.springframework.data.repository.CrudRepository;
+
+import com.talataa.ecommerce_app.entities.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface IUserRepository extends CrudRepository<User,Long> {
 
-    Optional<User> findByEmail(String email);
-    Optional<User> findByUsername(String userName);
+@Repository
+public interface IUserRepository extends JpaRepository<User,Long> {
+
+    Optional<User> findByUserName(String userName);
+
 }

@@ -1,7 +1,7 @@
-package com.talataa.ecommerce_app.service.imp;
+package com.talataa.ecommerce_app.service.impl;
 
 
-import com.talataa.ecommerce_app.model.User;
+import com.talataa.ecommerce_app.entities.User;
 import com.talataa.ecommerce_app.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -33,16 +33,16 @@ public class UserSecurityService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = this.userRepository.findByUsername(username)
+        User user = this.userRepository.findByUserName(username)
                 .orElseThrow(()-> new UsernameNotFoundException("User" + username + "Not found"));
 
 
 
         // En un método donde necesites convertirlo a String[]
-        String[] roles = { user.getUserType().toString() };
+        String[] roles = { user.getRole() };
 
         return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUsername())
+                .username(user.getUserName())
                 .password(user.getPassword())
                 .authorities(this.grantedAuthorities(roles))
                 .build();
@@ -53,8 +53,8 @@ public class UserSecurityService implements UserDetailsService {
 
     private String[] getAuthorities(String roles){
 
-        if ("DOCTOR".equals(roles) || "PATIENT".equals(roles)){
-            return new  String[] {"ROLE_ADMIN"};
+        if ("ADMIN".equals(roles) || "CUSTOMER".equals(roles)){
+            return new  String[] {"ROLE_DUAS"};
         }
 
 
