@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
+import Products from "./components/Products";
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
         <Navbar />
         <Hero />
       </div>
+      <Products />
     </main>
   );
 }
